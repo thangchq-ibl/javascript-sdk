@@ -14,6 +14,7 @@ import ecc from "tiny-secp256k1"
 
 import {
   ab2hexstring,
+  sha3,
   sha256,
   sha256ripemd160,
 } from "../utils"
@@ -163,7 +164,7 @@ export const verifySignature = (sigHex, signBytesHex, publicKeyHex) => {
 }
 
 /**
- * Generates a keystore based on given private key and password.
+ * Generates a keystore object (web3 secret storage format) given a private key to store and a password.
  * @param {string} privateKeyHex the private key hexstring.
  * @param {string} password the password.
  * @return {object} the keystore object.
@@ -203,7 +204,8 @@ export const generateKeyStore = (privateKeyHex, password) => {
       cipher: cipherAlg,
       kdf,
       kdfparams: kdfparams,
-      mac: sha256(bufferValue.toString("hex"))
+      // mac must use sha3 according to web3 secret storage spec
+      mac: sha3(bufferValue.toString("hex"))
     }
   }
 }
@@ -214,7 +216,6 @@ export const generateKeyStore = (privateKeyHex, password) => {
  * @param {string} password the password.
  */
 export const getPrivateKeyFromKeyStore = (keystore, password) => {
-
   if (!_.isString(password)) {
     throw new Error("No password given.")
   }
@@ -229,10 +230,10 @@ export const getPrivateKeyFromKeyStore = (keystore, password) => {
   const derivedKey = cryp.pbkdf2Sync(Buffer.from(password), Buffer.from(kdfparams.salt, "hex"), kdfparams.c, kdfparams.dklen, "sha256")
   const ciphertext = Buffer.from(json.crypto.ciphertext, "hex")
   const bufferValue = Buffer.concat([derivedKey.slice(16, 32), ciphertext])
-  const mac = sha256(bufferValue.toString("hex"))
+  const mac = sha3(bufferValue.toString("hex"))
 
   if (mac !== json.crypto.mac) {
-    throw new Error("Key derivation failed - possibly wrong password")
+    throw new Error("Keystore mac check failed - wrong password?")
   }
 
   const decipher = cryp.createDecipheriv(json.crypto.cipher, derivedKey.slice(0, 32), Buffer.from(json.crypto.cipherparams.iv, "hex"))
