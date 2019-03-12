@@ -144,6 +144,7 @@ export class BncClient {
    * @param {String} asset
    * @param {String} memo optional memo
    * @param {Number} sequence optional sequence
+   * @return {Promise}
    */
   async transfer(fromAddress, toAddress, amount, asset, memo="", sequence=null) {
     const accCode = crypto.decodeAddress(fromAddress)
@@ -195,6 +196,7 @@ export class BncClient {
    * @param {String} symbol the market pair
    * @param {String} refid the order ID of the order to cancel
    * @param {Number} sequence optional sequence
+   * @return {Promise}
    */
   async cancelOrder(fromAddress, symbol, refid, sequence=null) {
     const accCode = crypto.decodeAddress(fromAddress)
@@ -224,6 +226,7 @@ export class BncClient {
    * @param {Number} quantity
    * @param {Number} sequence optional sequence
    * @param {Number} timeinforce (1-GTC(Good Till Expire), 3-IOC(Immediate or Cancel))
+   * @return {Promise}
    */
   async placeOrder(address=this.address, symbol, side, price, quantity, sequence=null, timeinforce=1) {
     if (!address) {
@@ -286,7 +289,7 @@ export class BncClient {
    * @param {Number} sequence optional sequence
    * @param {String} memo optional memo
    * @param {Boolean} sync use synchronous mode, optional
-   * @return {Object} response (success or fail)
+   * @return {Promise}
    */
   async _sendTransaction(msg, stdSignMsg, address, sequence=null, memo="", sync=true) {
     if (!sequence && address) {
@@ -324,6 +327,7 @@ export class BncClient {
   /**
    * get account
    * @param {String} address
+   * @return {Promise}
    */
   async getAccount(address=this.address) {
     if(!address) {
@@ -340,6 +344,7 @@ export class BncClient {
   /**
    * get balances
    * @param {String} address optional address
+   * @return {Promise}
    */
   async getBalance(address=this.address) {
     try {

@@ -34,12 +34,12 @@
             * [.setSigningDelegate(delegate)](#module_client.BncClient+setSigningDelegate)
             * [.useDefaultSigningDelegate()](#module_client.BncClient+useDefaultSigningDelegate)
             * [.useLedgerSigningDelegate(ledgerApp, preSignCb, postSignCb, errCb)](#module_client.BncClient+useLedgerSigningDelegate)
-            * [.transfer(fromAddress, toAddress, amount, asset, memo, sequence)](#module_client.BncClient+transfer)
-            * [.cancelOrder(fromAddress, symbol, refid, sequence)](#module_client.BncClient+cancelOrder)
-            * [.placeOrder(address, symbol, side, price, quantity, sequence, timeinforce)](#module_client.BncClient+placeOrder)
-            * [._sendTransaction(msg, stdSignMsg, address, sequence, memo, sync)](#module_client.BncClient+_sendTransaction) ⇒ <code>Object</code>
-            * [.getAccount(address)](#module_client.BncClient+getAccount)
-            * [.getBalance(address)](#module_client.BncClient+getBalance)
+            * [.transfer(fromAddress, toAddress, amount, asset, memo, sequence)](#module_client.BncClient+transfer) ⇒ <code>Promise</code>
+            * [.cancelOrder(fromAddress, symbol, refid, sequence)](#module_client.BncClient+cancelOrder) ⇒ <code>Promise</code>
+            * [.placeOrder(address, symbol, side, price, quantity, sequence, timeinforce)](#module_client.BncClient+placeOrder) ⇒ <code>Promise</code>
+            * [._sendTransaction(msg, stdSignMsg, address, sequence, memo, sync)](#module_client.BncClient+_sendTransaction) ⇒ <code>Promise</code>
+            * [.getAccount(address)](#module_client.BncClient+getAccount) ⇒ <code>Promise</code>
+            * [.getBalance(address)](#module_client.BncClient+getBalance) ⇒ <code>Promise</code>
             * [.createAccount()](#module_client.BncClient+createAccount) ⇒ <code>Object</code>
             * [.createAccountWithKeystore(password)](#module_client.BncClient+createAccountWithKeystore)
             * [.createAccountWithMneomnic()](#module_client.BncClient+createAccountWithMneomnic) ⇒ <code>Object</code>
@@ -67,12 +67,12 @@ The Binance Chain client.
     * [.setSigningDelegate(delegate)](#module_client.BncClient+setSigningDelegate)
     * [.useDefaultSigningDelegate()](#module_client.BncClient+useDefaultSigningDelegate)
     * [.useLedgerSigningDelegate(ledgerApp, preSignCb, postSignCb, errCb)](#module_client.BncClient+useLedgerSigningDelegate)
-    * [.transfer(fromAddress, toAddress, amount, asset, memo, sequence)](#module_client.BncClient+transfer)
-    * [.cancelOrder(fromAddress, symbol, refid, sequence)](#module_client.BncClient+cancelOrder)
-    * [.placeOrder(address, symbol, side, price, quantity, sequence, timeinforce)](#module_client.BncClient+placeOrder)
-    * [._sendTransaction(msg, stdSignMsg, address, sequence, memo, sync)](#module_client.BncClient+_sendTransaction) ⇒ <code>Object</code>
-    * [.getAccount(address)](#module_client.BncClient+getAccount)
-    * [.getBalance(address)](#module_client.BncClient+getBalance)
+    * [.transfer(fromAddress, toAddress, amount, asset, memo, sequence)](#module_client.BncClient+transfer) ⇒ <code>Promise</code>
+    * [.cancelOrder(fromAddress, symbol, refid, sequence)](#module_client.BncClient+cancelOrder) ⇒ <code>Promise</code>
+    * [.placeOrder(address, symbol, side, price, quantity, sequence, timeinforce)](#module_client.BncClient+placeOrder) ⇒ <code>Promise</code>
+    * [._sendTransaction(msg, stdSignMsg, address, sequence, memo, sync)](#module_client.BncClient+_sendTransaction) ⇒ <code>Promise</code>
+    * [.getAccount(address)](#module_client.BncClient+getAccount) ⇒ <code>Promise</code>
+    * [.getBalance(address)](#module_client.BncClient+getBalance) ⇒ <code>Promise</code>
     * [.createAccount()](#module_client.BncClient+createAccount) ⇒ <code>Object</code>
     * [.createAccountWithKeystore(password)](#module_client.BncClient+createAccountWithKeystore)
     * [.createAccountWithMneomnic()](#module_client.BncClient+createAccountWithMneomnic) ⇒ <code>Object</code>
@@ -135,7 +135,7 @@ Applies the Ledger signing delegate.
 
 <a name="module_client.BncClient+transfer"></a>
 
-#### bncClient.transfer(fromAddress, toAddress, amount, asset, memo, sequence)
+#### bncClient.transfer(fromAddress, toAddress, amount, asset, memo, sequence) ⇒ <code>Promise</code>
 Transfer tokens from one address to another.
 
 **Kind**: instance method of [<code>BncClient</code>](#module_client.BncClient)  
@@ -151,7 +151,7 @@ Transfer tokens from one address to another.
 
 <a name="module_client.BncClient+cancelOrder"></a>
 
-#### bncClient.cancelOrder(fromAddress, symbol, refid, sequence)
+#### bncClient.cancelOrder(fromAddress, symbol, refid, sequence) ⇒ <code>Promise</code>
 Cancel an order.
 
 **Kind**: instance method of [<code>BncClient</code>](#module_client.BncClient)  
@@ -165,7 +165,7 @@ Cancel an order.
 
 <a name="module_client.BncClient+placeOrder"></a>
 
-#### bncClient.placeOrder(address, symbol, side, price, quantity, sequence, timeinforce)
+#### bncClient.placeOrder(address, symbol, side, price, quantity, sequence, timeinforce) ⇒ <code>Promise</code>
 Place an order.
 
 **Kind**: instance method of [<code>BncClient</code>](#module_client.BncClient)  
@@ -182,11 +182,10 @@ Place an order.
 
 <a name="module_client.BncClient+_sendTransaction"></a>
 
-#### bncClient.\_sendTransaction(msg, stdSignMsg, address, sequence, memo, sync) ⇒ <code>Object</code>
+#### bncClient.\_sendTransaction(msg, stdSignMsg, address, sequence, memo, sync) ⇒ <code>Promise</code>
 Broadcast a raw transaction to the blockchain.
 
 **Kind**: instance method of [<code>BncClient</code>](#module_client.BncClient)  
-**Returns**: <code>Object</code> - response (success or fail)  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -199,7 +198,7 @@ Broadcast a raw transaction to the blockchain.
 
 <a name="module_client.BncClient+getAccount"></a>
 
-#### bncClient.getAccount(address)
+#### bncClient.getAccount(address) ⇒ <code>Promise</code>
 get account
 
 **Kind**: instance method of [<code>BncClient</code>](#module_client.BncClient)  
@@ -210,7 +209,7 @@ get account
 
 <a name="module_client.BncClient+getBalance"></a>
 
-#### bncClient.getBalance(address)
+#### bncClient.getBalance(address) ⇒ <code>Promise</code>
 get balances
 
 **Kind**: instance method of [<code>BncClient</code>](#module_client.BncClient)  
